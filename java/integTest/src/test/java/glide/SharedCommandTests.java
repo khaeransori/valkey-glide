@@ -18653,6 +18653,52 @@ public class SharedCommandTests {
     @SneakyThrows
     @ParameterizedTest(autoCloseArguments = false)
     @MethodSource("getClients")
+    public void migrate_keys(BaseClient client) {
+        String key1 = "{migrate}" + UUID.randomUUID();
+        String key2 = "{migrate}" + UUID.randomUUID();
+        client.set(key1, "value1").get();
+        client.set(key2, "value2").get();
+        ExecutionException executionException =
+                assertThrows(
+                        ExecutionException.class,
+                        () ->
+                                client.migrate("nonexistent.host", 6379, new String[] {key1, key2}, 0, 5000).get());
+        assertInstanceOf(RequestException.class, executionException.getCause());
+        assertTrue(
+                executionException.getMessage().contains("Connection refused")
+                        || executionException.getMessage().contains("Name or service not known")
+                        || executionException.getMessage().contains("nodename nor servname provided")
+                        || executionException.getMessage().contains("Temporary failure")
+                        || executionException.getMessage().contains("IOERR"));
+    }
+
+    @SneakyThrows
+    @ParameterizedTest(autoCloseArguments = false)
+    @MethodSource("getClients")
+    public void migrate_keys_binary(BaseClient client) {
+        GlideString key1 = gs("{migrate}" + UUID.randomUUID());
+        GlideString key2 = gs("{migrate}" + UUID.randomUUID());
+        client.set(key1, gs("value1")).get();
+        client.set(key2, gs("value2")).get();
+        ExecutionException executionException =
+                assertThrows(
+                        ExecutionException.class,
+                        () ->
+                                client
+                                        .migrate("nonexistent.host", 6379, new GlideString[] {key1, key2}, 0, 5000)
+                                        .get());
+        assertInstanceOf(RequestException.class, executionException.getCause());
+        assertTrue(
+                executionException.getMessage().contains("Connection refused")
+                        || executionException.getMessage().contains("Name or service not known")
+                        || executionException.getMessage().contains("nodename nor servname provided")
+                        || executionException.getMessage().contains("Temporary failure")
+                        || executionException.getMessage().contains("IOERR"));
+    }
+
+    @SneakyThrows
+    @ParameterizedTest(autoCloseArguments = false)
+    @MethodSource("getClients")
     public void acl_load(BaseClient client) {
         // Test ACL LOAD - reloads ACL rules from the configured ACL file
         // Skip test if no ACL file is configured on the server

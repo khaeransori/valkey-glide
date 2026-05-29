@@ -6320,6 +6320,94 @@ public abstract class BaseClient
                 this::handleStringResponse);
     }
 
+    @Override
+    public CompletableFuture<String> migrate(
+            String destinationHost,
+            long destinationPort,
+            String[] keys,
+            long destinationDB,
+            long timeout) {
+        return commandManager.submitNewCommand(
+                Migrate,
+                new ArgsBuilder()
+                        .add(destinationHost)
+                        .add(Long.toString(destinationPort))
+                        .add("")
+                        .add(Long.toString(destinationDB))
+                        .add(Long.toString(timeout))
+                        .add(MigrateOptions.KEYS_VALKEY_API)
+                        .add(keys)
+                        .toArray(),
+                this::handleStringResponse);
+    }
+
+    @Override
+    public CompletableFuture<String> migrate(
+            String destinationHost,
+            long destinationPort,
+            GlideString[] keys,
+            long destinationDB,
+            long timeout) {
+        return commandManager.submitNewCommand(
+                Migrate,
+                new ArgsBuilder()
+                        .add(destinationHost)
+                        .add(destinationPort)
+                        .add(GlideString.of(""))
+                        .add(destinationDB)
+                        .add(timeout)
+                        .add(MigrateOptions.KEYS_VALKEY_API)
+                        .add(keys)
+                        .toArray(),
+                this::handleStringResponse);
+    }
+
+    @Override
+    public CompletableFuture<String> migrate(
+            String destinationHost,
+            long destinationPort,
+            String[] keys,
+            long destinationDB,
+            long timeout,
+            MigrateOptions migrateOptions) {
+        return commandManager.submitNewCommand(
+                Migrate,
+                new ArgsBuilder()
+                        .add(destinationHost)
+                        .add(Long.toString(destinationPort))
+                        .add("")
+                        .add(Long.toString(destinationDB))
+                        .add(Long.toString(timeout))
+                        .add(migrateOptions.toArgs())
+                        .add(MigrateOptions.KEYS_VALKEY_API)
+                        .add(keys)
+                        .toArray(),
+                this::handleStringResponse);
+    }
+
+    @Override
+    public CompletableFuture<String> migrate(
+            String destinationHost,
+            long destinationPort,
+            GlideString[] keys,
+            long destinationDB,
+            long timeout,
+            MigrateOptions migrateOptions) {
+        return commandManager.submitNewCommand(
+                Migrate,
+                new ArgsBuilder()
+                        .add(destinationHost)
+                        .add(destinationPort)
+                        .add(GlideString.of(""))
+                        .add(destinationDB)
+                        .add(timeout)
+                        .add(migrateOptions.toArgs())
+                        .add(MigrateOptions.KEYS_VALKEY_API)
+                        .add(keys)
+                        .toArray(),
+                this::handleStringResponse);
+    }
+
     public CompletableFuture<String[]> aclCat() {
         return commandManager.submitNewCommand(
                 AclCat,

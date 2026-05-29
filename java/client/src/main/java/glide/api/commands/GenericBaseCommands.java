@@ -1761,4 +1761,114 @@ public interface GenericBaseCommands {
             long destinationDB,
             long timeout,
             MigrateOptions migrateOptions);
+
+    /**
+     * Atomically transfers the specified keys from a source Valkey instance to a destination Valkey
+     * instance. On success, the keys are deleted from the source unless the {@code COPY} option is
+     * set. The command is atomic: the keys will either be present in the source or in the destination
+     * at any given time.
+     *
+     * @see <a href="https://valkey.io/commands/migrate/">valkey.io</a> for details.
+     * @param destinationHost The host of the destination Valkey instance.
+     * @param destinationPort The port of the destination Valkey instance.
+     * @param keys The keys to migrate.
+     * @param destinationDB The database to select in the destination Valkey instance.
+     * @param timeout The timeout for the migration in milliseconds.
+     * @return <code>"OK"</code> on success, or <code>"NOKEY"</code> if no keys were found.
+     * @example
+     *     <pre>{@code
+     * String result = client.migrate("destination.example.com", 6379, new String[]{"key1", "key2"}, 0, 5000).get();
+     * assert result.equals("OK");
+     * }</pre>
+     */
+    CompletableFuture<String> migrate(
+            String destinationHost,
+            long destinationPort,
+            String[] keys,
+            long destinationDB,
+            long timeout);
+
+    /**
+     * Atomically transfers the specified keys from a source Valkey instance to a destination Valkey
+     * instance. On success, the keys are deleted from the source unless the {@code COPY} option is
+     * set. The command is atomic: the keys will either be present in the source or in the destination
+     * at any given time.
+     *
+     * @see <a href="https://valkey.io/commands/migrate/">valkey.io</a> for details.
+     * @param destinationHost The host of the destination Valkey instance.
+     * @param destinationPort The port of the destination Valkey instance.
+     * @param keys The keys to migrate.
+     * @param destinationDB The database to select in the destination Valkey instance.
+     * @param timeout The timeout for the migration in milliseconds.
+     * @return <code>"OK"</code> on success, or <code>"NOKEY"</code> if no keys were found.
+     * @example
+     *     <pre>{@code
+     * String result = client.migrate("destination.example.com", 6379, new GlideString[]{gs("key1"), gs("key2")}, 0, 5000).get();
+     * assert result.equals("OK");
+     * }</pre>
+     */
+    CompletableFuture<String> migrate(
+            String destinationHost,
+            long destinationPort,
+            GlideString[] keys,
+            long destinationDB,
+            long timeout);
+
+    /**
+     * Atomically transfers the specified keys from a source Valkey instance to a destination Valkey
+     * instance. On success, the keys are deleted from the source unless the {@code COPY} option is
+     * set. The command is atomic: the keys will either be present in the source or in the destination
+     * at any given time.
+     *
+     * @see <a href="https://valkey.io/commands/migrate/">valkey.io</a> for details.
+     * @param destinationHost The host of the destination Valkey instance.
+     * @param destinationPort The port of the destination Valkey instance.
+     * @param keys The keys to migrate.
+     * @param destinationDB The database to select in the destination Valkey instance.
+     * @param timeout The timeout for the migration in milliseconds.
+     * @param migrateOptions {@link MigrateOptions}.
+     * @return <code>"OK"</code> on success, or <code>"NOKEY"</code> if no keys were found.
+     * @example
+     *     <pre>{@code
+     * MigrateOptions options = MigrateOptions.builder().copy(true).replace(true).build();
+     * String result = client.migrate("destination.example.com", 6379, new String[]{"key1", "key2"}, 0, 5000, options).get();
+     * assert result.equals("OK");
+     * }</pre>
+     */
+    CompletableFuture<String> migrate(
+            String destinationHost,
+            long destinationPort,
+            String[] keys,
+            long destinationDB,
+            long timeout,
+            MigrateOptions migrateOptions);
+
+    /**
+     * Atomically transfers the specified keys from a source Valkey instance to a destination Valkey
+     * instance. On success, the keys are deleted from the source unless the {@code COPY} option is
+     * set. The command is atomic: the keys will either be present in the source or in the destination
+     * at any given time.
+     *
+     * @see <a href="https://valkey.io/commands/migrate/">valkey.io</a> for details.
+     * @param destinationHost The host of the destination Valkey instance.
+     * @param destinationPort The port of the destination Valkey instance.
+     * @param keys The keys to migrate.
+     * @param destinationDB The database to select in the destination Valkey instance.
+     * @param timeout The timeout for the migration in milliseconds.
+     * @param migrateOptions {@link MigrateOptions}.
+     * @return <code>"OK"</code> on success, or <code>"NOKEY"</code> if no keys were found.
+     * @example
+     *     <pre>{@code
+     * MigrateOptions options = MigrateOptions.builder().copy(true).replace(true).build();
+     * String result = client.migrate("destination.example.com", 6379, new GlideString[]{gs("key1"), gs("key2")}, 0, 5000, options).get();
+     * assert result.equals("OK");
+     * }</pre>
+     */
+    CompletableFuture<String> migrate(
+            String destinationHost,
+            long destinationPort,
+            GlideString[] keys,
+            long destinationDB,
+            long timeout,
+            MigrateOptions migrateOptions);
 }
