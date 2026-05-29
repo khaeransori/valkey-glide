@@ -1,7 +1,7 @@
 ## Pending 2.5
 
 #### Changes
-* Java: Add `MIGRATE KEYS` (multi-key) variant — supports migrating multiple keys atomically using `KEYS key [key ...]` syntax; available as new overloads accepting `String[]` and `GlideString[]` ([#XXXX](https://github.com/valkey-io/valkey-glide/pull/XXXX))
+* Java: Add `MIGRATE KEYS` (multi-key) variant — supports migrating multiple keys atomically using `KEYS key [key ...]` syntax; available as new overloads accepting `String[]` and `GlideString[]` ([#6063](https://github.com/valkey-io/valkey-glide/pull/6063))
 * Node: Add RESET command support — resets connection state (database index, client name, protocol, pubsub subscriptions); available on both standalone and cluster clients ([#5945](https://github.com/valkey-io/valkey-glide/pull/5945))
 * Python: Add RESET command support — resets connection state (database index, client name, protocol, pubsub subscriptions); available on both standalone and cluster clients ([#5944](https://github.com/valkey-io/valkey-glide/pull/5944))
 * Python: Add `MIGRATE` command support ([#5933](https://github.com/valkey-io/valkey-glide/pull/5933))
