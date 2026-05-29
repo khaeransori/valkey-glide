@@ -10,7 +10,7 @@
 * Node: Add `MIGRATE` command support ([#5934](https://github.com/valkey-io/valkey-glide/pull/5934))
 * Go: Support custom socket address resolution when connecting to valkey ([#5873](https://github.com/valkey-io/valkey-glide/issues/5873))
 * Go: Add `MIGRATE` command support ([#5935](https://github.com/valkey-io/valkey-glide/pull/5935))
-* Go: Add `MigrateKeys` and `MigrateKeysWithOptions` — multi-key MIGRATE variant using `KEYS key [key ...]` syntax ([#XXXX](https://github.com/valkey-io/valkey-glide/pull/XXXX))
+* Go: Add `MigrateKeys` and `MigrateKeysWithOptions` — multi-key MIGRATE variant using `KEYS key [key ...]` syntax ([#6065](https://github.com/valkey-io/valkey-glide/pull/6065))
 
 ## 2.4
 
