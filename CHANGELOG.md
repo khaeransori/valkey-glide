@@ -1,7 +1,7 @@
 ## Pending 2.5
 
 #### Changes
-* Python: Add `MIGRATE KEYS` (multi-key) variant — supports migrating multiple keys atomically via `keys` field in `MigrateOptions`; uses `KEYS key [key ...]` syntax ([#XXXX](https://github.com/valkey-io/valkey-glide/pull/XXXX))
+* Python: Add `MIGRATE KEYS` (multi-key) variant — supports migrating multiple keys atomically via `keys` field in `MigrateOptions`; uses `KEYS key [key ...]` syntax ([#6066](https://github.com/valkey-io/valkey-glide/pull/6066))
 * Node: Add RESET command support — resets connection state (database index, client name, protocol, pubsub subscriptions); available on both standalone and cluster clients ([#5945](https://github.com/valkey-io/valkey-glide/pull/5945))
 * Python: Add RESET command support — resets connection state (database index, client name, protocol, pubsub subscriptions); available on both standalone and cluster clients ([#5944](https://github.com/valkey-io/valkey-glide/pull/5944))
 * Python: Add `MIGRATE` command support ([#5933](https://github.com/valkey-io/valkey-glide/pull/5933))
