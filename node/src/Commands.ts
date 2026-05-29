@@ -3397,6 +3397,12 @@ export interface MigrateOptions {
     password?: string;
     /** Authentication username for the destination instance (requires password). */
     username?: string;
+    /**
+     * The keys to migrate. When provided, uses the multi-key MIGRATE syntax
+     * (`MIGRATE host port "" db timeout [options] KEYS key1 key2 ...`).
+     * Mutually exclusive with the `key` parameter in `migrate()`.
+     */
+    keys?: GlideString[];
 }
 
 /** @internal */
@@ -3408,10 +3414,15 @@ export function createMigrate(
     timeout: number,
     options?: MigrateOptions,
 ): command_request.Command {
+    if (options?.keys !== undefined && options.keys.length === 0) {
+        throw new Error("MigrateOptions: 'keys' must not be empty");
+    }
+
+    const keyArg: GlideString = options?.keys !== undefined ? "" : key;
     const args: GlideString[] = [
         host,
         port.toString(),
-        key,
+        keyArg,
         destinationDB.toString(),
         timeout.toString(),
     ];
@@ -3431,6 +3442,10 @@ export function createMigrate(
             args.push("AUTH2", options.username, options.password);
         } else if (options.password !== undefined) {
             args.push("AUTH", options.password);
+        }
+
+        if (options.keys !== undefined) {
+            args.push("KEYS", ...options.keys);
         }
     }
 
