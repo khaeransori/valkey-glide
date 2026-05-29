@@ -6327,6 +6327,9 @@ public abstract class BaseClient
             String[] keys,
             long destinationDB,
             long timeout) {
+        if (keys == null || keys.length == 0) {
+            throw new IllegalArgumentException("keys must not be null or empty");
+        }
         return commandManager.submitNewCommand(
                 Migrate,
                 new ArgsBuilder()
@@ -6348,6 +6351,9 @@ public abstract class BaseClient
             GlideString[] keys,
             long destinationDB,
             long timeout) {
+        if (keys == null || keys.length == 0) {
+            throw new IllegalArgumentException("keys must not be null or empty");
+        }
         return commandManager.submitNewCommand(
                 Migrate,
                 new ArgsBuilder()
@@ -6370,6 +6376,9 @@ public abstract class BaseClient
             long destinationDB,
             long timeout,
             MigrateOptions migrateOptions) {
+        if (keys == null || keys.length == 0) {
+            throw new IllegalArgumentException("keys must not be null or empty");
+        }
         return commandManager.submitNewCommand(
                 Migrate,
                 new ArgsBuilder()
@@ -6393,6 +6402,9 @@ public abstract class BaseClient
             long destinationDB,
             long timeout,
             MigrateOptions migrateOptions) {
+        if (keys == null || keys.length == 0) {
+            throw new IllegalArgumentException("keys must not be null or empty");
+        }
         return commandManager.submitNewCommand(
                 Migrate,
                 new ArgsBuilder()

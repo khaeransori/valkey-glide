@@ -1775,6 +1775,7 @@ public interface GenericBaseCommands {
      * @param destinationDB The database to select in the destination Valkey instance.
      * @param timeout The timeout for the migration in milliseconds.
      * @return <code>"OK"</code> on success, or <code>"NOKEY"</code> if no keys were found.
+     * @throws IllegalArgumentException if keys is null or empty.
      * @example
      *     <pre>{@code
      * String result = client.migrate("destination.example.com", 6379, new String[]{"key1", "key2"}, 0, 5000).get();
@@ -1801,6 +1802,7 @@ public interface GenericBaseCommands {
      * @param destinationDB The database to select in the destination Valkey instance.
      * @param timeout The timeout for the migration in milliseconds.
      * @return <code>"OK"</code> on success, or <code>"NOKEY"</code> if no keys were found.
+     * @throws IllegalArgumentException if keys is null or empty.
      * @example
      *     <pre>{@code
      * String result = client.migrate("destination.example.com", 6379, new GlideString[]{gs("key1"), gs("key2")}, 0, 5000).get();
@@ -1828,6 +1830,7 @@ public interface GenericBaseCommands {
      * @param timeout The timeout for the migration in milliseconds.
      * @param migrateOptions {@link MigrateOptions}.
      * @return <code>"OK"</code> on success, or <code>"NOKEY"</code> if no keys were found.
+     * @throws IllegalArgumentException if keys is null or empty.
      * @example
      *     <pre>{@code
      * MigrateOptions options = MigrateOptions.builder().copy(true).replace(true).build();
@@ -1857,6 +1860,7 @@ public interface GenericBaseCommands {
      * @param timeout The timeout for the migration in milliseconds.
      * @param migrateOptions {@link MigrateOptions}.
      * @return <code>"OK"</code> on success, or <code>"NOKEY"</code> if no keys were found.
+     * @throws IllegalArgumentException if keys is null or empty.
      * @example
      *     <pre>{@code
      * MigrateOptions options = MigrateOptions.builder().copy(true).replace(true).build();

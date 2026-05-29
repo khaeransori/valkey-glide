@@ -18658,18 +18658,27 @@ public class SharedCommandTests {
         String key2 = "{migrate}" + UUID.randomUUID();
         client.set(key1, "value1").get();
         client.set(key2, "value2").get();
-        ExecutionException executionException =
-                assertThrows(
-                        ExecutionException.class,
-                        () ->
-                                client.migrate("nonexistent.host", 6379, new String[] {key1, key2}, 0, 5000).get());
-        assertInstanceOf(RequestException.class, executionException.getCause());
-        assertTrue(
-                executionException.getMessage().contains("Connection refused")
-                        || executionException.getMessage().contains("Name or service not known")
-                        || executionException.getMessage().contains("nodename nor servname provided")
-                        || executionException.getMessage().contains("Temporary failure")
-                        || executionException.getMessage().contains("IOERR"));
+        try {
+            ExecutionException executionException =
+                    assertThrows(
+                            ExecutionException.class,
+                            () ->
+                                    client
+                                            .migrate("nonexistent.host", 6379, new String[] {key1, key2}, 0, 5000)
+                                            .get());
+            assertInstanceOf(RequestException.class, executionException.getCause());
+            assertTrue(
+                    executionException.getCause().getMessage().contains("Connection refused")
+                            || executionException.getCause().getMessage().contains("Name or service not known")
+                            || executionException
+                                    .getCause()
+                                    .getMessage()
+                                    .contains("nodename nor servname provided")
+                            || executionException.getCause().getMessage().contains("Temporary failure")
+                            || executionException.getCause().getMessage().contains("IOERR"));
+        } finally {
+            client.del(new String[] {key1, key2}).get();
+        }
     }
 
     @SneakyThrows
@@ -18680,20 +18689,98 @@ public class SharedCommandTests {
         GlideString key2 = gs("{migrate}" + UUID.randomUUID());
         client.set(key1, gs("value1")).get();
         client.set(key2, gs("value2")).get();
-        ExecutionException executionException =
-                assertThrows(
-                        ExecutionException.class,
-                        () ->
-                                client
-                                        .migrate("nonexistent.host", 6379, new GlideString[] {key1, key2}, 0, 5000)
-                                        .get());
-        assertInstanceOf(RequestException.class, executionException.getCause());
-        assertTrue(
-                executionException.getMessage().contains("Connection refused")
-                        || executionException.getMessage().contains("Name or service not known")
-                        || executionException.getMessage().contains("nodename nor servname provided")
-                        || executionException.getMessage().contains("Temporary failure")
-                        || executionException.getMessage().contains("IOERR"));
+        try {
+            ExecutionException executionException =
+                    assertThrows(
+                            ExecutionException.class,
+                            () ->
+                                    client
+                                            .migrate("nonexistent.host", 6379, new GlideString[] {key1, key2}, 0, 5000)
+                                            .get());
+            assertInstanceOf(RequestException.class, executionException.getCause());
+            assertTrue(
+                    executionException.getCause().getMessage().contains("Connection refused")
+                            || executionException.getCause().getMessage().contains("Name or service not known")
+                            || executionException
+                                    .getCause()
+                                    .getMessage()
+                                    .contains("nodename nor servname provided")
+                            || executionException.getCause().getMessage().contains("Temporary failure")
+                            || executionException.getCause().getMessage().contains("IOERR"));
+        } finally {
+            client.del(new GlideString[] {key1, key2}).get();
+        }
+    }
+
+    @SneakyThrows
+    @ParameterizedTest(autoCloseArguments = false)
+    @MethodSource("getClients")
+    public void migrate_keys_with_options(BaseClient client) {
+        String key1 = "{migrate}" + UUID.randomUUID();
+        String key2 = "{migrate}" + UUID.randomUUID();
+        client.set(key1, "value1").get();
+        client.set(key2, "value2").get();
+        MigrateOptions options = MigrateOptions.builder().copy(true).replace(true).build();
+        try {
+            ExecutionException executionException =
+                    assertThrows(
+                            ExecutionException.class,
+                            () ->
+                                    client
+                                            .migrate(
+                                                    "nonexistent.host", 6379, new String[] {key1, key2}, 0, 5000, options)
+                                            .get());
+            assertInstanceOf(RequestException.class, executionException.getCause());
+            assertTrue(
+                    executionException.getCause().getMessage().contains("Connection refused")
+                            || executionException.getCause().getMessage().contains("Name or service not known")
+                            || executionException
+                                    .getCause()
+                                    .getMessage()
+                                    .contains("nodename nor servname provided")
+                            || executionException.getCause().getMessage().contains("Temporary failure")
+                            || executionException.getCause().getMessage().contains("IOERR"));
+        } finally {
+            client.del(new String[] {key1, key2}).get();
+        }
+    }
+
+    @SneakyThrows
+    @ParameterizedTest(autoCloseArguments = false)
+    @MethodSource("getClients")
+    public void migrate_keys_binary_with_options(BaseClient client) {
+        GlideString key1 = gs("{migrate}" + UUID.randomUUID());
+        GlideString key2 = gs("{migrate}" + UUID.randomUUID());
+        client.set(key1, gs("value1")).get();
+        client.set(key2, gs("value2")).get();
+        MigrateOptions options = MigrateOptions.builder().copy(true).replace(true).build();
+        try {
+            ExecutionException executionException =
+                    assertThrows(
+                            ExecutionException.class,
+                            () ->
+                                    client
+                                            .migrate(
+                                                    "nonexistent.host",
+                                                    6379,
+                                                    new GlideString[] {key1, key2},
+                                                    0,
+                                                    5000,
+                                                    options)
+                                            .get());
+            assertInstanceOf(RequestException.class, executionException.getCause());
+            assertTrue(
+                    executionException.getCause().getMessage().contains("Connection refused")
+                            || executionException.getCause().getMessage().contains("Name or service not known")
+                            || executionException
+                                    .getCause()
+                                    .getMessage()
+                                    .contains("nodename nor servname provided")
+                            || executionException.getCause().getMessage().contains("Temporary failure")
+                            || executionException.getCause().getMessage().contains("IOERR"));
+        } finally {
+            client.del(new GlideString[] {key1, key2}).get();
+        }
     }
 
     @SneakyThrows
