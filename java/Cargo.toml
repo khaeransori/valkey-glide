@@ -23,7 +23,7 @@ bytes = { version = "1.6.0" }
 serde = "1.0.225"
 # Additional dependencies for JNI implementation
 anyhow = "1.0"
-dashmap = "6.1.0"
+dashmap = "6.2.1"
 parking_lot = "0.12"
 scopeguard = "1.2"
 telemetrylib = { path = "../glide-core/telemetry"}
