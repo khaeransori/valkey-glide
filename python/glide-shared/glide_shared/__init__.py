@@ -38,6 +38,7 @@ from .commands.core_options import (
     InfoSection,
     InsertPosition,
     MigrateOptions,
+    MonitorMsg,
     OnlyIfEqual,
     PubSubMsg,
     UpdateOptions,
@@ -299,6 +300,8 @@ __all__ = [
     "ALL_CHANNELS",
     "ALL_PATTERNS",
     "ALL_SHARDED_CHANNELS",
+    # Monitor
+    "MonitorMsg",
     # Json
     "json_batch",
     "JsonGetOptions",
